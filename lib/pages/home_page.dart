@@ -34,6 +34,22 @@ class HomePage extends GetView {
                         color: Colors.black),
                   ),
                 ),
+                Container(
+                  height: 200,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/leaves.png'),
+                          fit: BoxFit.fill),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                      child: Column(
+                    children: [
+                      Text("Total Balance"),
+                      Container(),
+                    ],
+                  )),
+                )
               ],
             ),
           ),
