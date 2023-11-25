@@ -5,7 +5,7 @@ import 'package:manajemen_keuangan/pages/analytic_page.dart';
 import 'package:manajemen_keuangan/pages/home_page.dart';
 
 class MainPage extends GetView {
-  final List<Widget> _children = [const HomePage(), const AnalyticPage()];
+  final List<Widget> _children = [const HomePage(), AnalyticPage()];
   final _selectedIndex = 0.obs;
 
   MainPage({super.key});
@@ -20,6 +20,7 @@ class MainPage extends GetView {
         width: 70.0,
         child: FittedBox(
           child: FloatingActionButton(
+            backgroundColor: Colors.green.shade900,
             onPressed: () {},
             child: const Icon(
               Icons.add,
@@ -46,8 +47,8 @@ class MainPage extends GetView {
                           width: 20,
                           child: SvgPicture.asset(
                             "assets/home.svg",
-                            colorFilter: const ColorFilter.mode(
-                                Colors.purple, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                Colors.green.shade900, BlendMode.srcIn),
                           ))
                       : SizedBox(
                           height: 18,
@@ -68,8 +69,8 @@ class MainPage extends GetView {
                           width: 20,
                           child: SvgPicture.asset(
                             "assets/chart-pie-alt.svg",
-                            colorFilter: const ColorFilter.mode(
-                                Colors.purple, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                Colors.green.shade900, BlendMode.srcIn),
                           ))
                       : SizedBox(
                           height: 18,
