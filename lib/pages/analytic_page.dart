@@ -2,35 +2,59 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/analytic_controller.dart';
+
 class AnalyticPage extends GetView {
-  const AnalyticPage({Key? key}) : super(key: key);
+   AnalyticPage({Key? key}) : super(key: key);
+  final tab = Get.put(AnalyticController());
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.green.shade900,
-          bottom: const TabBar(
-            indicatorColor: Colors.green,
-            tabs: [
-              Tab(text: 'Income'),
-              Tab(text: 'Expenses'),
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Stack(
+            children: [
+              TabBarView(
+                controller: tab.controller,
+                children: [
+                  _buildChartsTab(),
+                  // Center(child: Text('Income')),
+                  _buildDataTab()
+                ],
+              ),
+              TabBar(
+                controller: tab.controller,
+                splashFactory: NoSplash.splashFactory,
+                dividerColor: Colors.transparent,
+                indicatorSize: TabBarIndicatorSize.tab,
+                overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
+                  return states.contains(MaterialState.focused)
+                      ? null
+                      : Colors.transparent;
+                }),
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.green.shade900),
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.black,
+                tabs: const [
+                  Tab(text: "Income"),
+                  Tab(text: "Expenses"),
+                ],
+              ),
             ],
           ),
-        ),
-        body: TabBarView(
-          children: [
-            _buildChartsTab(),
-            _buildDataTab(),
-          ],
         ),
       ),
     );
   }
 
-  Widget _buildChartsTab() {
+   _buildChartsTab() {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SingleChildScrollView(

@@ -16,6 +16,7 @@ class Zibaik extends StatelessWidget {
     return GetMaterialApp(
       title: "Zibaik App",
       theme: myTheme,
+      debugShowCheckedModeBanner: false,
       home: MainPage(),
       getPages: AppPages.pages,
     );

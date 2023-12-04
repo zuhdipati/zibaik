@@ -93,7 +93,7 @@ class HomePage extends GetView {
                         padding: EdgeInsets.only(top: 1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
                               "+ 200.000",
@@ -121,12 +121,12 @@ class HomePage extends GetView {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+
         const Text(
           "Total Balance",
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.w300, fontSize: 20),
         ),
-        const SizedBox(height: 10),
         const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -147,7 +147,7 @@ class HomePage extends GetView {
             )
           ],
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 30),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

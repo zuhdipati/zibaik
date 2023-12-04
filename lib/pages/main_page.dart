@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:manajemen_keuangan/pages/analytic_page.dart';
 import 'package:manajemen_keuangan/pages/home_page.dart';
 
+import '../core/app_routes.dart';
+
 class MainPage extends GetView {
   final List<Widget> _children = [const HomePage(), AnalyticPage()];
   final _selectedIndex = 0.obs;
@@ -20,11 +22,15 @@ class MainPage extends GetView {
         width: 70.0,
         child: FittedBox(
           child: FloatingActionButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
             backgroundColor: Colors.green.shade900,
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(Routes.submit);
+            },
             child: const Icon(
               Icons.add,
               size: 30,
+              color: Colors.white,
             ),
           ),
         ),
@@ -61,7 +67,6 @@ class MainPage extends GetView {
                 IconButton(
                   onPressed: () {
                     _selectedIndex.value = 1;
-                    print("category");
                   },
                   icon: _selectedIndex.value == 1
                       ? SizedBox(
