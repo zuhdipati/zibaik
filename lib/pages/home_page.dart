@@ -17,10 +17,12 @@ class HomePage extends GetView {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Container(
-                    height: 43,
-                    width: 43,
+                    height: 40,
+                    width: 40,
                     decoration: BoxDecoration(
-                        color: Colors.green.shade900,
+                        image: const DecorationImage(
+                            image: AssetImage('assets/teenager.png')),
+                        // color: Colors.green.shade900,
                         borderRadius: BorderRadius.circular(10)),
                   ),
                   title: const Text(
@@ -121,7 +123,6 @@ class HomePage extends GetView {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-
         const Text(
           "Total Balance",
           style: TextStyle(
