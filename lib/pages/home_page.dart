@@ -89,7 +89,7 @@ class HomePage extends GetView {
                       ),
                       subtitle: const Text(
                         "Income",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                       trailing: const Padding(
                         padding: EdgeInsets.only(top: 1),
@@ -104,7 +104,8 @@ class HomePage extends GetView {
                             ),
                             Text(
                               "Today",
-                              style: TextStyle(color: Colors.grey),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ),
                           ],
                         ),
