@@ -22,7 +22,8 @@ class MainPage extends GetView {
         width: 70.0,
         child: FittedBox(
           child: FloatingActionButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
             backgroundColor: Colors.green.shade900,
             onPressed: () {
               Get.toNamed(Routes.submit);
@@ -45,7 +46,7 @@ class MainPage extends GetView {
                 IconButton(
                   onPressed: () {
                     _selectedIndex.value = 0;
-                    print("home");
+                    debugPrint("home");
                   },
                   icon: _selectedIndex.value == 0
                       ? SizedBox(
