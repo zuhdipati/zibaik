@@ -5,13 +5,15 @@ import 'package:manajemen_keuangan/pages/analytic_page.dart';
 import 'package:manajemen_keuangan/pages/auth/register_page.dart';
 import 'package:manajemen_keuangan/pages/home_page.dart';
 import 'package:manajemen_keuangan/pages/auth/login_page.dart';
+import 'package:manajemen_keuangan/pages/main_page.dart';
 
 import '../pages/submit_page.dart';
 
 class AppPages {
   static const splash = Routes.splash;
   static final pages = [
-    GetPage(name: Routes.home, page: () => const HomePage()),
+    GetPage(name: Routes.home, page: () => HomePage()),
+    GetPage(name: Routes.main, page: () => MainPage()),
     GetPage(name: Routes.category, page: () => AnalyticPage()),
     GetPage(name: Routes.allTransaction, page: () => const AllTransaction()),
     GetPage(name: Routes.submit, page: () => SubmitPage()),

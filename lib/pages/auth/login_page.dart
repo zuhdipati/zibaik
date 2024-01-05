@@ -208,6 +208,7 @@ class LoginPage extends StatelessWidget {
                                         : const Text(
                                             "Log In",
                                             style: TextStyle(
+                                              fontSize: 16,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -233,6 +234,7 @@ class LoginPage extends StatelessWidget {
                                   const Text(
                                     "Log In with Google",
                                     style: TextStyle(
+                                        fontSize: 16,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600),
                                   ),

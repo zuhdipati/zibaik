@@ -21,8 +21,8 @@ class AnalyticPage extends GetView {
               TabBarView(
                 controller: tab.controller,
                 children: [
-                  _buildChartsTab(),
-                  // Center(child: Text('Income')),
+                  // _buildChartsTab(),
+                  Center(child: Text('Income')),
                   _buildDataTab()
                 ],
               ),

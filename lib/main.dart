@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:manajemen_keuangan/core/app_pages.dart';
 import 'package:manajemen_keuangan/core/app_theme.dart';
 import 'package:manajemen_keuangan/firebase_options.dart';
 import 'package:manajemen_keuangan/pages/auth/login_page.dart';
+import 'package:manajemen_keuangan/pages/main_page.dart';
 // import 'package:manajemen_keuangan/pages/main_page.dart';
 
 void main() async {
@@ -20,11 +23,22 @@ class Zibaik extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget authLogin;
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      authLogin = MainPage();
+    } else {
+      authLogin = LoginPage();
+    }
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return GetMaterialApp(
       title: "Zibaik App",
       theme: myTheme,
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: authLogin,
       getPages: AppPages.pages,
     );
   }

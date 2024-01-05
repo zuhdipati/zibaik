@@ -19,7 +19,7 @@ class RegisterPage extends StatelessWidget {
       body: SafeArea(
           child: SingleChildScrollView(
         child: SizedBox(
-          // height: Get.height / 1.05,
+          height: Get.height / 1.05,
           child: Stack(
             children: [
               Padding(
@@ -27,7 +27,7 @@ class RegisterPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 50),
                     const Text(
                       "Create an account",
                       style: TextStyle(
@@ -40,76 +40,77 @@ class RegisterPage extends StatelessWidget {
                       "Welcome! please enter your details.",
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    SizedBox(height: Get.height / 12),
+                    SizedBox(height: Get.height / 14),
                     Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Name",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            cursorColor: Colors.white,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                            validator: (value) {
-                              return value == null || value.isEmpty
-                                  ? 'Please fill the name'
-                                  : !controller.noSpecialCharacter
-                                          .hasMatch(value)
-                                      ? 'Name cannot contain special characters'
-                                      : null;
-                            },
-                            decoration: InputDecoration(
-                              label: const Text("Enter your name"),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelStyle: TextStyle(
-                                  color: Colors.white.withOpacity(0.5),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w100),
-                              filled: true,
-                              fillColor: Colors.grey.shade700,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 12),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.red),
-                              ),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: SvgPicture.asset(
-                                  'assets/user.svg',
-                                  width: 15,
-                                  height: 15,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                            onChanged: (val) {
-                              debugPrint(val);
-                            },
-                          ),
-                          const SizedBox(height: 20),
+                          // const Text("Name",
+                          //     style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontWeight: FontWeight.bold)),
+                          // const SizedBox(height: 10),
+                          // TextFormField(
+                          //   cursorColor: Colors.white,
+                          //   style: const TextStyle(
+                          //       color: Colors.white, fontSize: 18),
+                          //   validator: (value) {
+                          //     return value == null || value.isEmpty
+                          //         ? 'Please fill the name'
+                          //         : !controller.noSpecialCharacter
+                          //                 .hasMatch(value)
+                          //             ? 'Name cannot contain special characters'
+                          //             : null;
+                          //   },
+                          //   decoration: InputDecoration(
+                          //     label: const Text("Enter your name"),
+                          //     floatingLabelBehavior:
+                          //         FloatingLabelBehavior.never,
+                          //     labelStyle: TextStyle(
+                          //         color: Colors.white.withOpacity(0.5),
+                          //         fontSize: 17,
+                          //         fontWeight: FontWeight.w100),
+                          //     filled: true,
+                          //     fillColor: Colors.grey.shade700,
+                          //     contentPadding: const EdgeInsets.symmetric(
+                          //         horizontal: 10, vertical: 12),
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(12),
+                          //       borderSide:
+                          //           const BorderSide(color: Colors.white),
+                          //     ),
+                          //     focusedBorder: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(12),
+                          //       borderSide:
+                          //           const BorderSide(color: Colors.white),
+                          //     ),
+                          //     errorBorder: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(12),
+                          //       borderSide: const BorderSide(color: Colors.red),
+                          //     ),
+                          //     prefixIcon: Padding(
+                          //       padding: const EdgeInsets.all(12),
+                          //       child: SvgPicture.asset(
+                          //         'assets/user.svg',
+                          //         width: 15,
+                          //         height: 15,
+                          //         color: Colors.white.withOpacity(0.5),
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   onChanged: (val) {
+                          //     debugPrint(val);
+                          //   },
+                          // ),
+                          // const SizedBox(height: 20),
                           const Text("Email",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           const SizedBox(height: 10),
                           TextFormField(
+                            controller: controller.email,
                             cursorColor: Colors.white,
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 18),
@@ -167,6 +168,7 @@ class RegisterPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold)),
                           const SizedBox(height: 10),
                           TextFormField(
+                            controller: controller.password,
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 18),
                             cursorColor: Colors.white,
@@ -232,7 +234,9 @@ class RegisterPage extends StatelessWidget {
                           const SizedBox(height: 20),
                           Bounceable(
                             onTap: () {
-                              _formKey.currentState!.validate();
+                              if (_formKey.currentState!.validate()) {
+                                controller.register();
+                              }
                             },
                             child: Container(
                               width: Get.width,
@@ -241,14 +245,22 @@ class RegisterPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                   gradient: const LinearGradient(
                                       colors: [Colors.purple, Colors.pink])),
-                              child: const Center(
-                                child: Text(
+                              child:Obx(() => Center(
+                                child: controller.isLoading.value == true
+                                    ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ))
+                                    : const Text(
                                   "Sign Up",
                                   style: TextStyle(
+                                      fontSize: 16,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
-                              ),
+                              )),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -268,6 +280,7 @@ class RegisterPage extends StatelessWidget {
                                 const Text(
                                   "Sign Up with Google",
                                   style: TextStyle(
+                                      fontSize: 16,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600),
                                 ),

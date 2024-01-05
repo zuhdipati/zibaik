@@ -45,17 +45,103 @@ class SubmitPage extends StatelessWidget {
           _saveButton(),
         ],
       ),
-      body: ScrollConfiguration(
-        behavior: MyBehavior(),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: Get.height * 0.9,
-            child: Stack(
-              children: [
-                _icons(),
-                _inputValue(),
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: Get.height / 1.13,
+          child: Stack(
+            children: [
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: controller.listCategory.length,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 5.0,
+                  mainAxisSpacing: 5.0,
+                ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      if (controller.isSelected.value == index) {
+                        controller.isSelected.value = -1;
+                      } else {
+                        controller.isSelected.value = index;
+                      }
+                    },
+                    child: Obx(() => Container(
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: controller.isSelected.value == index
+                                  ? Colors.lightGreenAccent.shade100
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  controller.listCategory[index].svgIcon,
+                                  height: 25,
+                                  width: 25),
+                              const SizedBox(height: 10),
+                              Text(controller.listCategory[index].name),
+                            ],
+                          )),
+                        )),
+                  );
+                },
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  color: Colors.green.shade900,
+                  height: Get.height * 0.08,
+                  width: Get.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextFormField(
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: SizedBox(
+                            width: 75,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/coins.svg',
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    "Rp:",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          prefixStyle: const TextStyle(fontSize: 10),
+                          hintStyle: TextStyle(
+                              color: Colors.white.withOpacity(0.6),
+                              fontSize: 20)),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),

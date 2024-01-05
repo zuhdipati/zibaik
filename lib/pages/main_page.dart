@@ -7,7 +7,7 @@ import 'package:manajemen_keuangan/pages/home_page.dart';
 import '../core/app_routes.dart';
 
 class MainPage extends GetView {
-  final List<Widget> _children = [const HomePage(), AnalyticPage()];
+  final List<Widget> _children = [ HomePage(), AnalyticPage()];
   final _selectedIndex = 0.obs;
 
   MainPage({super.key});

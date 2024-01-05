@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:get/get.dart';
+import 'package:manajemen_keuangan/controllers/auth_controller.dart';
 import 'package:manajemen_keuangan/core/app_routes.dart';
 
 class HomePage extends GetView {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final authController = Get.put(AuthController());
+  final args = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade900,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -29,23 +35,29 @@ class HomePage extends GetView {
                     "Welcome, ",
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
-                  subtitle: const Text(
-                    "Zuhdi Abdillah",
-                    style: TextStyle(
+                  subtitle: Text(
+                    args,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
+                  trailing: TextButton(
+                      onPressed: () => authController.signOut(),
+                      child: Text("Logout")),
                 ),
-                Container(
-                  height: 200,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage('assets/leaves.png'),
-                          fit: BoxFit.fill),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(child: _cardBalance()),
+                Bounceable(
+                  onTap: () {},
+                  child: Container(
+                    height: 200,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        image: const DecorationImage(
+                            image: AssetImage('assets/leaves.png'),
+                            fit: BoxFit.fill),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(child: _cardBalance()),
+                  ),
                 ),
                 const SizedBox(height: 30),
                 Row(
@@ -53,19 +65,21 @@ class HomePage extends GetView {
                   children: [
                     const Text(
                       "Recent Transaction",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white),
                     ),
                     TextButton(
                       onPressed: () {
                         Get.toNamed(Routes.allTransaction);
                       },
-                      child: Text(
+                      child: const Text(
                         "See All",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Colors.green.shade900),
+                            color: Colors.white),
                       ),
                     ),
                   ],
@@ -85,7 +99,9 @@ class HomePage extends GetView {
                       title: const Text(
                         "Coffee",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white),
                       ),
                       subtitle: const Text(
                         "Income",
@@ -100,7 +116,9 @@ class HomePage extends GetView {
                             Text(
                               "+ 200.000",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.white),
                             ),
                             Text(
                               "Today",
