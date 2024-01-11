@@ -29,7 +29,7 @@ class RegisterPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 50),
                     const Text(
-                      "Create an account",
+                      "Buat akun anda",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -37,7 +37,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     const Text(
-                      "Welcome! please enter your details.",
+                      "Selamat datang, buat email dan password",
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     SizedBox(height: Get.height / 14),
@@ -46,64 +46,6 @@ class RegisterPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // const Text("Name",
-                          //     style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontWeight: FontWeight.bold)),
-                          // const SizedBox(height: 10),
-                          // TextFormField(
-                          //   cursorColor: Colors.white,
-                          //   style: const TextStyle(
-                          //       color: Colors.white, fontSize: 18),
-                          //   validator: (value) {
-                          //     return value == null || value.isEmpty
-                          //         ? 'Please fill the name'
-                          //         : !controller.noSpecialCharacter
-                          //                 .hasMatch(value)
-                          //             ? 'Name cannot contain special characters'
-                          //             : null;
-                          //   },
-                          //   decoration: InputDecoration(
-                          //     label: const Text("Enter your name"),
-                          //     floatingLabelBehavior:
-                          //         FloatingLabelBehavior.never,
-                          //     labelStyle: TextStyle(
-                          //         color: Colors.white.withOpacity(0.5),
-                          //         fontSize: 17,
-                          //         fontWeight: FontWeight.w100),
-                          //     filled: true,
-                          //     fillColor: Colors.grey.shade700,
-                          //     contentPadding: const EdgeInsets.symmetric(
-                          //         horizontal: 10, vertical: 12),
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(12),
-                          //       borderSide:
-                          //           const BorderSide(color: Colors.white),
-                          //     ),
-                          //     focusedBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(12),
-                          //       borderSide:
-                          //           const BorderSide(color: Colors.white),
-                          //     ),
-                          //     errorBorder: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(12),
-                          //       borderSide: const BorderSide(color: Colors.red),
-                          //     ),
-                          //     prefixIcon: Padding(
-                          //       padding: const EdgeInsets.all(12),
-                          //       child: SvgPicture.asset(
-                          //         'assets/user.svg',
-                          //         width: 15,
-                          //         height: 15,
-                          //         color: Colors.white.withOpacity(0.5),
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   onChanged: (val) {
-                          //     debugPrint(val);
-                          //   },
-                          // ),
-                          // const SizedBox(height: 20),
                           const Text("Email",
                               style: TextStyle(
                                   color: Colors.white,
@@ -122,7 +64,7 @@ class RegisterPage extends StatelessWidget {
                                   : null;
                             },
                             decoration: InputDecoration(
-                              label: const Text("Enter your email"),
+                              label: const Text("Masukkan email anda"),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               labelStyle: TextStyle(
@@ -167,75 +109,86 @@ class RegisterPage extends StatelessWidget {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           const SizedBox(height: 10),
-                          TextFormField(
-                            controller: controller.password,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                            cursorColor: Colors.white,
-                            validator: (value) {
-                              return value == null ||
-                                      value.isEmpty ||
-                                      value.length < 6
-                                  ? 'Password must be at least 6 characters'
-                                  : !controller.noSpecialCharacter
-                                          .hasMatch(value)
-                                      ? 'Password cannot contain special characters'
-                                      : null;
-                            },
-                            decoration: InputDecoration(
-                              label: const Text("Enter your password"),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.5),
-                                fontSize: 17,
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey.shade700,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 12),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.red),
-                              ),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: SvgPicture.asset(
-                                  'assets/lock.svg',
-                                  width: 15,
-                                  height: 15,
-                                  color: Colors.white.withOpacity(0.5),
+                          Obx(() => TextFormField(
+                                controller: controller.password,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                                cursorColor: Colors.white,
+                                obscureText: controller.obsecureText.value
+                                    ? true
+                                    : false,
+                                validator: (value) {
+                                  return value == null ||
+                                          value.isEmpty ||
+                                          value.length < 6
+                                      ? 'Password must be at least 6 characters'
+                                      : !controller.noSpecialCharacter
+                                              .hasMatch(value)
+                                          ? 'Password cannot contain special characters'
+                                          : null;
+                                },
+                                decoration: InputDecoration(
+                                  label: const Text("Masukkan password anda"),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                  labelStyle: TextStyle(
+                                    color: Colors.white.withOpacity(0.5),
+                                    fontSize: 17,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey.shade700,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 12),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red),
+                                  ),
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: SvgPicture.asset(
+                                      'assets/lock.svg',
+                                      width: 15,
+                                      height: 15,
+                                      color: Colors.white.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  suffixIcon: GestureDetector(
+                                    onTap: () => controller.obsecureText.value =
+                                        !controller.obsecureText.value,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: SvgPicture.asset(
+                                        controller.obsecureText.value
+                                            ? 'assets/eye-crossed.svg'
+                                            : 'assets/eye.svg',
+                                        width: 15,
+                                        height: 15,
+                                        color: Colors.white.withOpacity(0.5),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: SvgPicture.asset(
-                                  'assets/eye-crossed.svg',
-                                  width: 15,
-                                  height: 15,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                            onChanged: (val) {
-                              debugPrint(val);
-                            },
-                          ),
+                                onChanged: (val) {
+                                  debugPrint(val);
+                                },
+                              )),
                           const SizedBox(height: 20),
                           Bounceable(
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
                                 controller.register();
+                                Get.focusScope!.unfocus();
                               }
                             },
                             child: Container(
@@ -245,22 +198,22 @@ class RegisterPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                   gradient: const LinearGradient(
                                       colors: [Colors.purple, Colors.pink])),
-                              child:Obx(() => Center(
-                                child: controller.isLoading.value == true
-                                    ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ))
-                                    : const Text(
-                                  "Sign Up",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
+                              child: Obx(() => Center(
+                                    child: controller.isLoading.value == true
+                                        ? const SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ))
+                                        : const Text(
+                                            "Daftar",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                  )),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -278,7 +231,7 @@ class RegisterPage extends StatelessWidget {
                                 Image.asset('assets/google.png',
                                     width: 40, height: 40),
                                 const Text(
-                                  "Sign Up with Google",
+                                  "Daftar dengan Google",
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
@@ -302,14 +255,14 @@ class RegisterPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Already have an account?",
+                    Text("Sudah punya akun?",
                         style: TextStyle(color: Colors.white.withOpacity(0.5))),
                     TextButton(
                       onPressed: () => Get.offAndToNamed(Routes.login),
                       style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 8)),
                       child: const Text(
-                        "Sign In",
+                        "Masuk",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),

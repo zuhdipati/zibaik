@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:manajemen_keuangan/core/app_routes.dart';
-import 'package:manajemen_keuangan/pages/all_transaction_page.dart';
-import 'package:manajemen_keuangan/pages/analytic_page.dart';
+import 'package:manajemen_keuangan/pages/main/all_transaction_page.dart';
+import 'package:manajemen_keuangan/pages/main/analytic_page.dart';
 import 'package:manajemen_keuangan/pages/auth/register_page.dart';
-import 'package:manajemen_keuangan/pages/home_page.dart';
+import 'package:manajemen_keuangan/pages/main/home_page.dart';
 import 'package:manajemen_keuangan/pages/auth/login_page.dart';
 import 'package:manajemen_keuangan/pages/main_page.dart';
 
-import '../pages/submit_page.dart';
+import '../pages/main/submit_page.dart';
 
 class AppPages {
   static const splash = Routes.splash;

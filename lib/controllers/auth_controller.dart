@@ -21,14 +21,12 @@ class AuthController extends GetxController {
   RegExp noSpecialCharacter = RegExp(r'^[a-zA-Z0-9]+$');
 
   Future<void> login() async {
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
     var body = {'email': email.text, 'password': password.text};
     Uri url = Uri.parse(_baseUrl + _login);
 
     isLoading.value = true;
     var request = await http.post(url, body: body);
     final data = json.decode(request.body);
-    print(data);
     try {
       if (data['status'] == 'SUCCESS') {
         String token = data['result'];
@@ -45,11 +43,11 @@ class AuthController extends GetxController {
         }
       } else if (data['error'] == 'user_not_found') {
         isLoading.value = false;
-        Get.snackbar('Error', 'User not found',
+        Get.snackbar('Gagal', 'User tidak ditemuka',
             backgroundColor: Colors.red, colorText: Colors.white);
       } else if (data['error'] == 'unauthorized') {
         isLoading.value = false;
-        Get.snackbar('Error', 'Wrong email or password',
+        Get.snackbar('Gagal', 'Email dan password salah',
             backgroundColor: Colors.red, colorText: Colors.white);
       }
     } catch (e) {
@@ -58,7 +56,6 @@ class AuthController extends GetxController {
   }
 
   Future<void> register() async {
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
     var body = {'email': email.text, 'password': password.text};
     Uri url = Uri.parse(_baseUrl + _register);
 
@@ -70,15 +67,15 @@ class AuthController extends GetxController {
       if (data['status'] == 'SUCCESS') {
         isLoading.value = false;
         Get.offAndToNamed(Routes.login);
-        Get.snackbar('Error', 'Registration success',
+        Get.snackbar('Berhasil', 'Registrasi berhasil',
             backgroundColor: Colors.green, colorText: Colors.white);
       } else if (data['error'] == 'email_already_registered') {
         isLoading.value = false;
-        Get.snackbar('Error', 'Email already registered',
+        Get.snackbar('Gagal', 'Email telah terdaftar',
             backgroundColor: Colors.red, colorText: Colors.white);
       } else if (data['error'] == 'unauthorized') {
         isLoading.value = false;
-        Get.snackbar('Error', 'Wrong email or password',
+        Get.snackbar('Gagal', 'Email dan password salah',
             backgroundColor: Colors.red, colorText: Colors.white);
       }
     } catch (e) {

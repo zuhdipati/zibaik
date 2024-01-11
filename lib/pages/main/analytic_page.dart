@@ -2,15 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/analytic_controller.dart';
+import '../../controllers/analytic_controller.dart';
 
 class AnalyticPage extends GetView {
-   AnalyticPage({Key? key}) : super(key: key);
+  AnalyticPage({Key? key}) : super(key: key);
   final tab = Get.put(AnalyticController());
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -54,7 +53,7 @@ class AnalyticPage extends GetView {
     );
   }
 
-   _buildChartsTab() {
+  _buildChartsTab() {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SingleChildScrollView(

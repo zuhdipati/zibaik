@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 50),
                     const Text(
-                      "Log in to your account",
+                      "Masuk ke akun anda",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     const Text(
-                      "Welcome back! please enter your details.",
+                      "Selamat datang! isi email dan password",
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     SizedBox(height: Get.height / 12),
@@ -64,7 +64,7 @@ class LoginPage extends StatelessWidget {
                                   : null;
                             },
                             decoration: InputDecoration(
-                              label: const Text("Enter your email"),
+                              label: const Text("Masukkan email anda"),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               labelStyle: TextStyle(
@@ -128,7 +128,7 @@ class LoginPage extends StatelessWidget {
                                           : null;
                                 },
                                 decoration: InputDecoration(
-                                  label: const Text("Enter your password"),
+                                  label: const Text("Masukkan password anda"),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.never,
                                   labelStyle: TextStyle(
@@ -188,6 +188,8 @@ class LoginPage extends StatelessWidget {
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
                                 controller.login();
+                                Get.delete<AuthController>();
+                                Get.focusScope!.unfocus();
                               }
                             },
                             child: Container(
@@ -206,9 +208,9 @@ class LoginPage extends StatelessWidget {
                                               color: Colors.white,
                                             ))
                                         : const Text(
-                                            "Log In",
+                                            "Masuk",
                                             style: TextStyle(
-                                              fontSize: 16,
+                                                fontSize: 16,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -232,7 +234,7 @@ class LoginPage extends StatelessWidget {
                                   Image.asset('assets/google.png',
                                       width: 40, height: 40),
                                   const Text(
-                                    "Log In with Google",
+                                    "Masuk dengan Google",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.white,
@@ -257,14 +259,14 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Dont have an account?",
+                    Text("Belum punya akun?",
                         style: TextStyle(color: Colors.white.withOpacity(0.5))),
                     TextButton(
                       onPressed: () => Get.offAndToNamed(Routes.register),
                       style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 8)),
                       child: const Text(
-                        "Sign Up",
+                        "Daftar",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),

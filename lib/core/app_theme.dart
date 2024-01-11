@@ -5,7 +5,7 @@ final myTheme = ThemeData(
     appBarTheme: const AppBarTheme(centerTitle: true),
     useMaterial3: true,
     textTheme: myTextTheme,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900));
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber));
 
 final myTextTheme = TextTheme(
   bodyLarge:
