@@ -17,7 +17,6 @@ class HomePage extends GetView {
     final homeController = Get.put(HomeController());
     final oCcy = NumberFormat.decimalPattern('id');
     return Scaffold(
-      // backgroundColor: Colors.grey.shade900,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -61,7 +60,7 @@ class HomePage extends GetView {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Jumlah Uang",
+                          "Total Keuangan",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -230,7 +229,7 @@ class HomePage extends GetView {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 70),
                   child: GetBuilder<HomeController>(
                     init: homeController,
                     builder: (homeController) {
@@ -251,80 +250,87 @@ class HomePage extends GetView {
                           itemBuilder: (context, index) {
                             var transaction =
                                 homeController.transactions[index];
-                            return Bounceable(
-                              onTap: () {},
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          blurRadius: 1,
-                                          color: Colors.grey,
-                                          offset: Offset(0, 1),
-                                          spreadRadius: 1)
-                                    ],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      leading: Container(
-                                        height: 45,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.shade900,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SvgPicture.asset(
-                                            transaction.iconUrl,
-                                            color: Colors.amber,
+                            return GestureDetector(
+                              onLongPress: () {
+                                _bottomSheet(transaction, oCcy, homeController);
+                              },
+                              child: Bounceable(
+                                onTap: () {},
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            blurRadius: 1,
+                                            color: Colors.grey,
+                                            offset: Offset(0, 1),
+                                            spreadRadius: 1)
+                                      ],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        leading: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey.shade900,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SvgPicture.asset(
+                                              transaction.iconUrl,
+                                              color: Colors.amber,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      title: Text(
-                                        transaction.categoryType,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      subtitle: Text(
-                                        transaction.transactionType,
-                                        style: const TextStyle(
-                                            color: Colors.grey, fontSize: 14),
-                                      ),
-                                      trailing: Padding(
-                                        padding: const EdgeInsets.only(top: 1),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              transaction.transactionType ==
-                                                      "expense"
-                                                  ? "Rp -${oCcy.format(transaction.amount)}"
-                                                  : "Rp ${oCcy.format(transaction.amount)}",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
-                                            Text(
-                                              homeController.formatDate(
-                                                  transaction.createdTimestamp),
-                                              style: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14),
-                                            ),
-                                          ],
+                                        title: Text(
+                                          transaction.categoryType,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
-                                      )),
+                                        subtitle: Text(
+                                          transaction.transactionType,
+                                          style: const TextStyle(
+                                              color: Colors.grey, fontSize: 14),
+                                        ),
+                                        trailing: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 1),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                transaction.transactionType ==
+                                                        "expense"
+                                                    ? "Rp -${oCcy.format(transaction.amount)}"
+                                                    : "Rp ${oCcy.format(transaction.amount)}",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ),
+                                              Text(
+                                                homeController.formatDate(
+                                                    transaction
+                                                        .createdTimestamp),
+                                                style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ),
                                 ),
                               ),
                             );
@@ -339,6 +345,125 @@ class HomePage extends GetView {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amber,
+        onPressed: () {
+          Get.toNamed(Routes.submit);
+        },
+        child: const Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.white,
+        ),
+      ),
     );
+  }
+
+  Future<dynamic> _bottomSheet(
+      transaction, NumberFormat oCcy, HomeController homeController) {
+    return Get.bottomSheet(Container(
+      height: 300,
+      padding: const EdgeInsets.all(10),
+      width: Get.width,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              height: 7,
+              width: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.grey.shade700),
+            ),
+          ),
+          ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade900,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(
+                    transaction.iconUrl,
+                    color: Colors.amber,
+                  ),
+                ),
+              ),
+              title: Text(
+                transaction.categoryType,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              subtitle: Text(
+                transaction.transactionType,
+                style: const TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+              trailing: Padding(
+                padding: const EdgeInsets.only(top: 1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      transaction.transactionType == "expense"
+                          ? "Rp -${oCcy.format(transaction.amount)}"
+                          : "Rp ${oCcy.format(transaction.amount)}",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Text(
+                      homeController.formatDate(transaction.createdTimestamp),
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                  ],
+                ),
+              )),
+          Text(
+              "Kuantitas: ${transaction.quantity.toString()} x Rp${oCcy.format(transaction.amount / transaction.quantity)}"),
+          const SizedBox(height: 10),
+          Container(
+            width: Get.width,
+            height: 1,
+            color: Colors.grey.shade700,
+          ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: Container(
+          //     alignment: Alignment.centerLeft,
+          //     height: 50,
+          //     width: Get.width,
+          //     child: const Text(
+          //       "Hapus",
+          //       style: TextStyle(
+          //           color: Colors.red,
+          //           fontWeight: FontWeight.bold),
+          //     ),
+          //   ),
+          // ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: Container(
+          //     alignment: Alignment.centerLeft,
+          //     height: 50,
+          //     width: Get.width,
+          //     child: Text(
+          //       "Edit",
+          //       style: TextStyle(
+          //           color: Colors.grey.shade900, fontWeight: FontWeight.bold),
+          //     ),
+          //   ),
+          // )
+        ],
+      ),
+    ));
   }
 }

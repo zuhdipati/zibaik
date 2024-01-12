@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -60,7 +61,7 @@ class SubmitPage extends StatelessWidget {
                                   vertical: 10, horizontal: 20),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green.shade900,
+                                    backgroundColor: Colors.grey.shade900,
                                     foregroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -68,7 +69,7 @@ class SubmitPage extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     controller.amount.text.isEmpty ||
-                                            controller.categoryType == null
+                                            controller.categoryType.isEmpty
                                         ? Get.snackbar("Perhatian",
                                             "Masukkan semua data terlebih dahulu",
                                             backgroundColor: Colors.red,
@@ -109,11 +110,12 @@ class SubmitPage extends StatelessWidget {
                               highlightColor: Colors.transparent,
                               onTap: () {
                                 if (controller.isSelected.value == index) {
-                                  controller.isSelected.value = -1;
+                                  // controller.isSelected.value = -1;
+                                  controller.categoryType.value = "";
                                 } else {
                                   controller.isSelected.value = index;
                                 }
-                                controller.categoryType =
+                                controller.categoryType.value =
                                     controller.isExpense.value
                                         ? controller.listIncome[index].name
                                         : controller.listExpense[index].name;
@@ -124,10 +126,10 @@ class SubmitPage extends StatelessWidget {
                               child: Obx(() => Container(
                                     margin: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                        color: controller.isSelected.value ==
-                                                index
-                                            ? Colors.lightGreenAccent.shade100
-                                            : Colors.transparent,
+                                        color:
+                                            controller.isSelected.value == index
+                                                ? Colors.grey.shade300
+                                                : Colors.transparent,
                                         borderRadius:
                                             BorderRadius.circular(15)),
                                     child: Center(
@@ -150,7 +152,7 @@ class SubmitPage extends StatelessWidget {
                                                   .listIncome[index].name
                                               : controller
                                                   .listExpense[index].name,
-                                          style: TextStyle(fontSize: 16),
+                                          style: const TextStyle(fontSize: 16),
                                         ),
                                       ],
                                     )),
@@ -163,50 +165,99 @@ class SubmitPage extends StatelessWidget {
               ),
               Positioned(
                 bottom: 0,
-                child: Container(
-                  color: Colors.green.shade900,
-                  height: Get.height * 0.08,
-                  width: Get.width,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextFormField(
-                      controller: controller.amount,
-                      textAlign: TextAlign.end,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: SizedBox(
-                            width: 75,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/coins.svg',
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    "Rp:",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    Obx(() => controller.categoryType.value == ""
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  controller.categoryType.value,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          if (controller.quantity.value > 1) {
+                                            controller.quantity.value--;
+                                          }
+                                        },
+                                        child:
+                                            const Icon(CupertinoIcons.minus)),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      controller.quantity.value.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    GestureDetector(
+                                        onTap: () {
+                                          controller.quantity.value++;
+                                        },
+                                        child: const Icon(Icons.add)),
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
-                          prefixStyle: const TextStyle(fontSize: 10),
-                          hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 20)),
+                          )),
+                    SizedBox(height: 10),
+                    Container(
+                      color: Colors.grey.shade900,
+                      height: Get.height * 0.08,
+                      width: Get.width,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: controller.amount,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: SizedBox(
+                                width: 75,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/coins.svg',
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Text(
+                                        "Rp:",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              prefixStyle: const TextStyle(fontSize: 10),
+                              hintStyle: TextStyle(
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 20)),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               )
             ],
@@ -226,6 +277,10 @@ class SubmitPage extends StatelessWidget {
         children: [
           Text("Nama: ${controller.categoryType}"),
           Text("Harga: Rp ${oCcy.format(int.parse(controller.amount.text))}"),
+          Text("Quantity: x${controller.quantity.value}"),
+          const SizedBox(height: 30),
+          Text(
+              "Total: ${oCcy.format(int.parse(controller.amount.text) * controller.quantity.value)}")
         ],
       ),
       actions: [

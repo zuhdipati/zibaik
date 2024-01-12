@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,56 +7,37 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:manajemen_keuangan/api/auth_service.dart';
 import 'package:manajemen_keuangan/models/transaction_model.dart';
-import 'package:manajemen_keuangan/models/user_model.dart';
 
+String current = DateTime.now().toString();
+DateTime dateTime = DateTime.parse(current);
+String formatted = DateFormat('dd MMMM yyyy').format(dateTime);
+String formattedCalendarDate = DateFormat('dd').format(dateTime);
 final AuthService _auth = AuthService();
 
-class HomeController extends GetxController {
-  final String _baseUrl = "https://long-pink-coati.cyclic.app";
-  final String _user = "/api/account/me";
-  final String _transaction =
-      "/api/transaction/?limit=5&page=0&timeUnit=month&timeAmount=1&sort=desc";
-
-  var userData = UserModel().obs;
+class AllTransactionController extends GetxController {
+  RxString currentDate = current.obs;
+  RxString formattedDate = formatted.obs;
   RxList transactions = [].obs;
-  RxBool isLoading = false.obs;
   RxBool isTransactionLoading = false.obs;
-
-  Future<void> getUser() async {
-    try {
-      isLoading.value = true;
-      String token = (await _auth.getCurrentToken()).token;
-
-      var headers = {'Authorization': token};
-      var url = Uri.parse(_baseUrl + _user);
-
-      var response = await http.get(url, headers: headers);
-      var decode = jsonDecode(response.body);
-      if (decode['status'] == 'SUCCESS') {
-        var data = decode['result'];
-        userData.value = UserModel.fromJson(data);
-        update();
-        isLoading.value = false;
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      isLoading.value = false;
-    }
-  }
+  RxInt calendarDate = int.parse(formattedCalendarDate).obs;
 
   Future<RxList<dynamic>> getTransaction() async {
+    update();
+    isTransactionLoading.value = true;
+    const String baseUrl = "https://long-pink-coati.cyclic.app";
+    final String transaction =
+        "/api/transaction/?startTime=2024-01-$calendarDate&endTime=2024-01-$calendarDate&sort=desc";
+
     try {
-      isTransactionLoading.value = true;
       String token = (await _auth.getCurrentToken()).token;
 
       var headers = {'Authorization': token};
-      var url = Uri.parse(_baseUrl + _transaction);
-
+      var url = Uri.parse(baseUrl + transaction);
       var response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        print(data);
+        log(data.toString());
 
         transactions.value = data.map((item) {
           return Transaction.fromJson(item);
@@ -78,13 +60,12 @@ class HomeController extends GetxController {
   }
 
   String formatDate(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('dd MMM yyyy');
+    final DateFormat formatter = DateFormat('dd MMM yyyy', 'id');
     return formatter.format(dateTime);
   }
 
   @override
   void onInit() {
-    getUser();
     getTransaction();
     super.onInit();
   }

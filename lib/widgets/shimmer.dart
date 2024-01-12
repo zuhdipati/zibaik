@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Skeleton extends StatelessWidget {
@@ -33,39 +34,9 @@ class TrxShimmer extends StatelessWidget {
       child: Column(
           children: List.generate(
         4,
-        (index) => const Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Skeleton(
-                    height: 45,
-                    width: 45,
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Skeleton(width: 100, height: 15),
-                      SizedBox(height: 3),
-                      Skeleton(width: 80, height: 15),
-                    ],
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Skeleton(width: 150, height: 15),
-                  SizedBox(height: 3),
-                  Skeleton(width: 150, height: 15),
-                ],
-              )
-            ],
-          ),
+        (index) => Padding(
+          padding: EdgeInsets.fromLTRB(2, 0, 2, 5),
+          child: Skeleton(width: Get.width, height: 70),
         ),
       )),
     );

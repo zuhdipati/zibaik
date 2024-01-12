@@ -17,9 +17,10 @@ class SubmitController extends GetxController {
   RxInt isSelected = RxInt(-1);
   RxBool isLoading = false.obs;
   TextEditingController amount = TextEditingController();
-  String? categoryType;
+  RxString categoryType = "".obs;
   String? transactionType;
   String? iconUrl;
+  RxInt quantity = 1.obs;
 
   final List<CategoryModel> listIncome = [
     CategoryModel(name: "Rokok", svgIcon: "assets/submit/rokok.svg"),
@@ -48,15 +49,16 @@ class SubmitController extends GetxController {
         barrierDismissible: false,
         const Center(child: CircularProgressIndicator()));
     String token = (await _auth.getCurrentToken()).token;
+    amount.text = (int.parse(amount.text) * quantity.value).toString();
 
     var url = Uri.parse(_baseUrl + _createTransaction);
     var headers = {'Authorization': token};
     var body = {
-      "amount": amount.text.toString(),
-      "categoryType": categoryType,
+      "amount": amount.text,
+      "categoryType": categoryType.value,
       "transactionType": transactionType!.toLowerCase(),
       "iconUrl": iconUrl,
-      "quantity": 1.toString(),
+      "quantity": quantity.value.toString(),
       "comment": "haha"
     };
 
@@ -72,7 +74,7 @@ class SubmitController extends GetxController {
         Get.find<HomeController>().getTransaction();
         Get.find<HomeController>().getUser();
         Get.offNamedUntil(
-          Routes.main,
+          Routes.home,
           (route) => false,
         );
         isLoading.value = false;

@@ -35,7 +35,7 @@ class AuthController extends GetxController {
           final credential =
               await FirebaseAuth.instance.signInWithCustomToken(token);
           if (credential.user != null) {
-            Get.offAndToNamed(Routes.main, arguments: email.text);
+            Get.offAndToNamed(Routes.home, arguments: email.text);
             isLoading.value = false;
           }
         } on FirebaseAuthException catch (e) {
