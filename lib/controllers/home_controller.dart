@@ -11,15 +11,16 @@ import 'package:manajemen_keuangan/models/user_model.dart';
 final AuthService _auth = AuthService();
 
 class HomeController extends GetxController {
+  var userData = UserModel().obs;
+  var idTransaction = '';
+  RxList transactions = [].obs;
+  RxBool isLoading = false.obs;
+  RxBool isTransactionLoading = false.obs;
+
   final String _baseUrl = "https://long-pink-coati.cyclic.app";
   final String _user = "/api/account/me";
   final String _transaction =
       "/api/transaction/?limit=5&page=0&timeUnit=month&timeAmount=1&sort=desc";
-
-  var userData = UserModel().obs;
-  RxList transactions = [].obs;
-  RxBool isLoading = false.obs;
-  RxBool isTransactionLoading = false.obs;
 
   Future<void> getUser() async {
     try {
@@ -58,6 +59,8 @@ class HomeController extends GetxController {
         print(data);
 
         transactions.value = data.map((item) {
+          idTransaction = item['_id'];
+          print("ID TRANSAKSI $idTransaction");
           return Transaction.fromJson(item);
         }).toList();
 
@@ -74,6 +77,47 @@ class HomeController extends GetxController {
     } catch (e) {
       debugPrint(e.toString());
       return [].obs;
+    }
+  }
+
+  Future<void> deleteTransaction() async {
+    final String deleteTrx = "/api/transaction/delete/$idTransaction";
+
+    String token = (await _auth.getCurrentToken()).token;
+
+    var headers = {'Authorization': token};
+    var url = Uri.parse(_baseUrl + deleteTrx);
+    try {
+      Get.dialog(AlertDialog(
+        title: Text("Hapus transaksi?"),
+        actions: [
+          TextButton(
+            child: const Text('Tidak'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          TextButton(
+            child: const Text('Ya'),
+            onPressed: () async {
+              Get.back();
+              Get.back();
+              isLoading.value = true;
+              var response = await http.delete(url, headers: headers);
+              print(response);
+              if (response.statusCode == 200) {
+                getTransaction();
+                getUser();
+                update();
+                Get.snackbar("Berhasil", "Data dihapus");
+              }
+            },
+          ),
+        ],
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+      isLoading.value = false;
     }
   }
 

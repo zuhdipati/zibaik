@@ -20,11 +20,12 @@ class AllTransactionController extends GetxController {
   RxList transactions = [].obs;
   RxBool isTransactionLoading = false.obs;
   RxInt calendarDate = int.parse(formattedCalendarDate).obs;
+  String baseUrl = "https://long-pink-coati.cyclic.app";
+  String idTransaction = '';
 
   Future<RxList<dynamic>> getTransaction() async {
     update();
     isTransactionLoading.value = true;
-    const String baseUrl = "https://long-pink-coati.cyclic.app";
     final String transaction =
         "/api/transaction/?startTime=2024-01-$calendarDate&endTime=2024-01-$calendarDate&sort=desc";
 
@@ -40,6 +41,8 @@ class AllTransactionController extends GetxController {
         log(data.toString());
 
         transactions.value = data.map((item) {
+          idTransaction = item["_id"];
+          print("ID TRANSAKSI $idTransaction");
           return Transaction.fromJson(item);
         }).toList();
 
@@ -56,6 +59,46 @@ class AllTransactionController extends GetxController {
     } catch (e) {
       debugPrint(e.toString());
       return [].obs;
+    }
+  }
+
+  Future<void> deleteTransaction() async {
+    final String deleteTrx = "/api/transaction/delete/$idTransaction";
+
+    String token = (await _auth.getCurrentToken()).token;
+
+    var headers = {'Authorization': token};
+    var url = Uri.parse(baseUrl + deleteTrx);
+    try {
+      Get.dialog(AlertDialog(
+        title: const Text("Hapus item?"),
+        actions: [
+          TextButton(
+            child: const Text('No'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () async {
+              Get.back();
+              Get.back();
+              isTransactionLoading.value = true;
+              var response = await http.delete(url, headers: headers);
+              print(response);
+              if (response.statusCode == 200) {
+                getTransaction();
+                update();
+                Get.snackbar("Berhasil", "Data dihapus");
+              }
+            },
+          ),
+        ],
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+      isTransactionLoading.value = false;
     }
   }
 

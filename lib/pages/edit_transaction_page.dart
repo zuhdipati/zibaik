@@ -3,16 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:manajemen_keuangan/controllers/submit_controller.dart';
+import 'package:manajemen_keuangan/controllers/edit_transaction_controller.dart';
 
-class SubmitPage extends StatelessWidget {
-  SubmitPage({super.key});
+class EditTransactionPage extends StatelessWidget {
+  EditTransactionPage(
+      {super.key,
+      required this.idTrx,
+      required this.transactionType,
+      required this.amount,
+      required this.categoryName,
+      required this.iconUrl,
+      required this.quantity,
+      required this.comment,
+      required this.isExpense});
 
-  final controller = Get.put(SubmitController());
+  final String idTrx;
+  final int amount;
+  final String categoryName;
+  final String transactionType;
+  final String iconUrl;
+  final int quantity;
+  final String comment;
+  final bool isExpense;
+
+  final controller = Get.put(EditTransactionController());
   final oCcy = NumberFormat.decimalPattern('id');
 
   @override
   Widget build(BuildContext context) {
+    controller.initialize(idTrx, amount, comment, categoryName, transactionType,
+        iconUrl, quantity, isExpense);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -36,24 +56,11 @@ class SubmitPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            Obx(() => Text(
-                                controller.isExpense.value
-                                    ? "Income"
-                                    : "Expenses",
+                            Text(transactionType,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.black))),
-                            const SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () => controller.isExpense.value =
-                                  !controller.isExpense.value,
-                              child: SvgPicture.asset(
-                                'assets/refresh.svg',
-                                width: 18,
-                                height: 18,
-                              ),
-                            ),
+                                    color: Colors.black)),
                           ],
                         ),
                         Obx(() => Padding(
@@ -71,7 +78,7 @@ class SubmitPage extends StatelessWidget {
                                     controller.amount.text.isEmpty ||
                                             controller.categoryType.isEmpty
                                         ? Get.snackbar("Perhatian",
-                                            "Masukkan semua data terlebih dahulu",
+                                            "Masukkan harga dan kategori terlebih dahulu",
                                             backgroundColor: Colors.red,
                                             colorText: Colors.white)
                                         : _saveDataDialog();
@@ -111,7 +118,7 @@ class SubmitPage extends StatelessWidget {
                               onTap: () {
                                 if (controller.isSelected.value == index) {
                                   // controller.isSelected.value = -1;
-                                  controller.categoryType.value = "";
+                                  // controller.categoryType.value = "";
                                 } else {
                                   controller.isSelected.value = index;
                                 }
@@ -152,7 +159,7 @@ class SubmitPage extends StatelessWidget {
                                                   .listIncome[index].name
                                               : controller
                                                   .listExpense[index].name,
-                                          style: const TextStyle(fontSize: 16),
+                                          style: const TextStyle(fontSize: 14),
                                         ),
                                       ],
                                     )),
@@ -168,6 +175,7 @@ class SubmitPage extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Obx(() => controller.categoryType.value == ""
                         ? Container()
@@ -210,7 +218,31 @@ class SubmitPage extends StatelessWidget {
                               ],
                             ),
                           )),
-                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Catatan: ",
+                            style: TextStyle(
+                                height: 0.5,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            width: Get.width * 0.7,
+                            child: TextField(
+                              controller: controller.comment,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     Container(
                       color: Colors.grey.shade900,
                       height: Get.height * 0.08,
@@ -225,6 +257,17 @@ class SubmitPage extends StatelessWidget {
                               fontSize: 25,
                               fontWeight: FontWeight.bold),
                           keyboardType: TextInputType.number,
+                          validator: (value) {
+                            final RegExp numericRegex = RegExp(r'^[0-9]+$');
+                            if (!numericRegex.hasMatch(value!)) {
+                              return 'Hanya masukkan angka';
+                            }
+                            Get.snackbar("Gagal", "Masukkan harga dengan benar",
+                                colorText: Colors.white,
+                                backgroundColor: Colors.red);
+
+                            return null;
+                          },
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               prefixIcon: SizedBox(
@@ -269,7 +312,7 @@ class SubmitPage extends StatelessWidget {
 
   Future<dynamic> _saveDataDialog() {
     return Get.dialog(AlertDialog(
-      title: Text("Simpan ${controller.transactionType}?"),
+      title: Text("Ubah ${controller.transactionType}?"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -280,7 +323,8 @@ class SubmitPage extends StatelessWidget {
           Text("Quantity: x${controller.quantity.value}"),
           const SizedBox(height: 30),
           Text(
-              "Total: ${oCcy.format(int.parse(controller.amount.text) * controller.quantity.value)}")
+              "Total: ${oCcy.format(int.parse(controller.amount.text) * controller.quantity.value)}"),
+          Text("Catatan: ${controller.comment.text}"),
         ],
       ),
       actions: [
@@ -294,7 +338,10 @@ class SubmitPage extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text('Simpan'),
+          child: const Text(
+            'Ubah',
+            style: TextStyle(color: Colors.green),
+          ),
           onPressed: () async {
             await controller.submitData();
           },

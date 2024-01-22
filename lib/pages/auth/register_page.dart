@@ -217,29 +217,29 @@ class RegisterPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          Container(
-                            width: Get.width,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade900,
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/google.png',
-                                    width: 40, height: 40),
-                                const Text(
-                                  "Daftar dengan Google",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Container(
+                          //   width: Get.width,
+                          //   height: 50,
+                          //   decoration: BoxDecoration(
+                          //       color: Colors.grey.shade900,
+                          //       border: Border.all(color: Colors.white),
+                          //       borderRadius: BorderRadius.circular(12)),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     children: [
+                          //       Image.asset('assets/google.png',
+                          //           width: 40, height: 40),
+                          //       const Text(
+                          //         "Daftar dengan Google",
+                          //         style: TextStyle(
+                          //             fontSize: 16,
+                          //             color: Colors.white,
+                          //             fontWeight: FontWeight.w600),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           SizedBox(height: Get.height / 10),
                         ],
                       ),

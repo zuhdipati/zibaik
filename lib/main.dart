@@ -7,9 +7,7 @@ import 'package:manajemen_keuangan/core/app_pages.dart';
 import 'package:manajemen_keuangan/core/app_theme.dart';
 import 'package:manajemen_keuangan/firebase_options.dart';
 import 'package:manajemen_keuangan/pages/auth/login_page.dart';
-import 'package:manajemen_keuangan/pages/main/home_page.dart';
-import 'package:manajemen_keuangan/pages/main_page.dart';
-// import 'package:manajemen_keuangan/pages/main_page.dart';
+import 'package:manajemen_keuangan/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +25,7 @@ class Zibaik extends StatelessWidget {
     Widget authLogin;
 
     if (FirebaseAuth.instance.currentUser != null) {
-      authLogin = HomePage();
+      authLogin = const HomePage();
     } else {
       authLogin = LoginPage();
     }

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:manajemen_keuangan/controllers/auth_controller.dart';
 import 'package:manajemen_keuangan/controllers/home_controller.dart';
 import 'package:manajemen_keuangan/core/app_routes.dart';
+import 'package:manajemen_keuangan/pages/edit_transaction_page.dart';
 import 'package:manajemen_keuangan/widgets/shimmer.dart';
 
 class HomePage extends GetView {
@@ -59,9 +60,9 @@ class HomePage extends GetView {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Total Keuangan",
-                          style: TextStyle(
+                        Text(
+                          "Total Keuangan (${DateFormat.MMMM().format(DateTime.now())})",
+                          style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 20),
@@ -211,14 +212,17 @@ class HomePage extends GetView {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Transaksi Terbaru",
+                      "Transaksi hari ini",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       onPressed: () {
-                        Get.toNamed(Routes.allTransaction);
+                        Get.toNamed(Routes.allTransaction)!.then((value) {
+                          homeController.getTransaction();
+                          homeController.getUser();
+                        });
                       },
                       child: const Text(
                         "Lihat Semua",
@@ -346,7 +350,7 @@ class HomePage extends GetView {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.grey.shade900,
         onPressed: () {
           Get.toNamed(Routes.submit);
         },
@@ -428,40 +432,67 @@ class HomePage extends GetView {
                 ),
               )),
           Text(
-              "Kuantitas: ${transaction.quantity.toString()} x Rp${oCcy.format(transaction.amount / transaction.quantity)}"),
+            "Kuantitas: ${transaction.quantity.toString()} x ${oCcy.format(transaction.amount / transaction.quantity)}",
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Catatan: ${transaction.comment}",
+            style: const TextStyle(fontSize: 16),
+          ),
           const SizedBox(height: 10),
           Container(
             width: Get.width,
             height: 1,
             color: Colors.grey.shade700,
           ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: Container(
-          //     alignment: Alignment.centerLeft,
-          //     height: 50,
-          //     width: Get.width,
-          //     child: const Text(
-          //       "Hapus",
-          //       style: TextStyle(
-          //           color: Colors.red,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: Container(
-          //     alignment: Alignment.centerLeft,
-          //     height: 50,
-          //     width: Get.width,
-          //     child: Text(
-          //       "Edit",
-          //       style: TextStyle(
-          //           color: Colors.grey.shade900, fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // )
+          const SizedBox(height: 10),
+          InkWell(
+              onTap: () => homeController.deleteTransaction(),
+              child: SizedBox(
+                  width: Get.width,
+                  child: const Text(
+                    "Hapus",
+                    style: TextStyle(color: Colors.red),
+                  ))),
+          const SizedBox(height: 10),
+          InkWell(
+              onTap: () {
+                Get.dialog(AlertDialog(
+                  title: const Text("Edit transaksi?"),
+                  actions: [
+                    TextButton(
+                      child: const Text('Tidak'),
+                      onPressed: () {
+                        Get.back();
+                        print(transaction.transactionType);
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('Ya'),
+                      onPressed: () async {
+                        Get.back();
+                        Get.back();
+                        Get.to(() => EditTransactionPage(
+                              transactionType: transaction.transactionType,
+                              idTrx: transaction.id,
+                              amount:
+                                  transaction.amount ~/ transaction.quantity,
+                              categoryName: transaction.categoryType,
+                              iconUrl: transaction.iconUrl,
+                              quantity: transaction.quantity,
+                              comment: transaction.comment,
+                              isExpense:
+                                  transaction.transactionType == "expense"
+                                      ? false
+                                      : true,
+                            ));
+                      },
+                    ),
+                  ],
+                ));
+              },
+              child: SizedBox(width: Get.width, child: const Text("Edit"))),
         ],
       ),
     ));
