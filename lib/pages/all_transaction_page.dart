@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:manajemen_keuangan/controllers/all_transaction_controller.dart';
+import 'package:manajemen_keuangan/pages/edit_transaction_page.dart';
 import 'package:manajemen_keuangan/widgets/shimmer.dart';
 
 class AllTransaction extends GetView {
@@ -253,7 +254,7 @@ class AllTransaction extends GetView {
           ),
           const SizedBox(height: 10),
           InkWell(
-              onTap: () => controller.deleteTransaction(),
+              onTap: () => controller.deleteTransaction(transaction.id),
               child: SizedBox(
                   width: Get.width,
                   child: const Text(
@@ -261,7 +262,43 @@ class AllTransaction extends GetView {
                     style: TextStyle(color: Colors.red),
                   ))),
           const SizedBox(height: 10),
-          InkWell(child: SizedBox(width: Get.width, child: const Text("Edit"))),
+          InkWell(
+              onTap: () {
+                Get.dialog(AlertDialog(
+                  title: const Text("Edit transaksi?"),
+                  actions: [
+                    TextButton(
+                      child: const Text('Tidak'),
+                      onPressed: () {
+                        Get.back();
+                        print(transaction.transactionType);
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('Ya'),
+                      onPressed: () async {
+                        Get.back();
+                        Get.back();
+                        Get.to(() => EditTransactionPage(
+                              transactionType: transaction.transactionType,
+                              idTrx: transaction.id,
+                              amount:
+                                  transaction.amount ~/ transaction.quantity,
+                              categoryName: transaction.categoryType,
+                              iconUrl: transaction.iconUrl,
+                              quantity: transaction.quantity,
+                              comment: transaction.comment,
+                              isExpense:
+                                  transaction.transactionType == "expense"
+                                      ? false
+                                      : true,
+                            ));
+                      },
+                    ),
+                  ],
+                ));
+              },
+              child: SizedBox(width: Get.width, child: const Text("Edit"))),
         ],
       ),
     ));

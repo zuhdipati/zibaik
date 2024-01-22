@@ -21,7 +21,6 @@ class AllTransactionController extends GetxController {
   RxBool isTransactionLoading = false.obs;
   RxInt calendarDate = int.parse(formattedCalendarDate).obs;
   String baseUrl = "https://long-pink-coati.cyclic.app";
-  String idTransaction = '';
 
   Future<RxList<dynamic>> getTransaction() async {
     update();
@@ -41,8 +40,6 @@ class AllTransactionController extends GetxController {
         log(data.toString());
 
         transactions.value = data.map((item) {
-          idTransaction = item["_id"];
-          print("ID TRANSAKSI $idTransaction");
           return Transaction.fromJson(item);
         }).toList();
 
@@ -62,7 +59,7 @@ class AllTransactionController extends GetxController {
     }
   }
 
-  Future<void> deleteTransaction() async {
+  Future<void> deleteTransaction(idTransaction) async {
     final String deleteTrx = "/api/transaction/delete/$idTransaction";
 
     String token = (await _auth.getCurrentToken()).token;
