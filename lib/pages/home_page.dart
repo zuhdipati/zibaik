@@ -257,6 +257,7 @@ class HomePage extends GetView {
                             return GestureDetector(
                               onLongPress: () {
                                 _bottomSheet(transaction, oCcy, homeController);
+                                transaction.id;
                               },
                               child: Bounceable(
                                 onTap: () {},
@@ -448,7 +449,7 @@ class HomePage extends GetView {
           ),
           const SizedBox(height: 10),
           InkWell(
-              onTap: () => homeController.deleteTransaction(),
+              onTap: () => homeController.deleteTransaction(transaction.id),
               child: SizedBox(
                   width: Get.width,
                   child: const Text(

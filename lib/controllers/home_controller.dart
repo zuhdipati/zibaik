@@ -12,7 +12,6 @@ final AuthService _auth = AuthService();
 
 class HomeController extends GetxController {
   var userData = UserModel().obs;
-  var idTransaction = '';
   RxList transactions = [].obs;
   RxBool isLoading = false.obs;
   RxBool isTransactionLoading = false.obs;
@@ -59,8 +58,6 @@ class HomeController extends GetxController {
         print(data);
 
         transactions.value = data.map((item) {
-          idTransaction = item['_id'];
-          print("ID TRANSAKSI $idTransaction");
           return Transaction.fromJson(item);
         }).toList();
 
@@ -80,7 +77,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> deleteTransaction() async {
+  Future<void> deleteTransaction(idTransaction) async {
     final String deleteTrx = "/api/transaction/delete/$idTransaction";
 
     String token = (await _auth.getCurrentToken()).token;
